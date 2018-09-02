@@ -2,8 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/slnx.sqlite
-/.vs/ProjectSettings.json
+/.vs/*
 *.suo
 *.user
 _ReSharper.*
@@ -12,3 +11,4 @@ obj
 packages
 Release
 release
+\code\Web\FraudDetector\obj\*
