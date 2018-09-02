@@ -11,12 +11,17 @@ namespace CoreEngine.Repository.v1
 {
     public class CategoryRepository:BaseRepository
     {
-
+       private Category _category;
+        private CategoryResponse _response;
+        public CategoryRepository()
+        {
+            _category = new Category();
+            _response = new CategoryResponse();
+        }
 
         public List<Category> GetCategories(string categoryname, int categoryid)
         {
-            Category response = new Category();
-            List<Category> categories = new List<Category>();
+           
             using (SqlCommand cmd = new SqlCommand())
             {
                 con.Open();
@@ -37,63 +42,51 @@ namespace CoreEngine.Repository.v1
                 {
                     for(int i=0;i<tab.Rows.Count;i++)
                     {
-                        response.categoryName = tab.Rows[i]["categoryName"].ToString();
-                        response.categoryId = tab.Rows[i]["categoryId"].ToString();
-                        categories.Add(response);
+                        _category.categoryName = tab.Rows[i]["categoryName"].ToString();
+                        _category.categoryId = tab.Rows[i]["categoryId"].ToString();
+                        _response.response.Add(_category);
 
                     }
                 }
                 
                 
             }
-            return categories;
+            return _response.response;
         }
 
 
-        public List<CategorySegmentResponse> GetCategorySegment(int Categoryid)
+       
+
+         public bool InsertOrUpdateCategory(Category category)
         {
-            CategorySegmentResponse response = new CategorySegmentResponse();
-            List<CategorySegmentResponse> _categories = new List<CategorySegmentResponse>();
             using (SqlCommand cmd = new SqlCommand())
             {
-                con.Open();
-                cmd.Connection = con;
-
-                cmd.CommandText = "Getcategories";
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                SqlDataAdapter da = new SqlDataAdapter();
-                DataSet ds = new DataSet();
-                cmd.Parameters.AddWithValue("@CategoryId", Categoryid).Direction = ParameterDirection.Input;
-                
-                da = new SqlDataAdapter(cmd);
-                da.Fill(ds);
-                con.Close();
-                var tab = ds.Tables[0];
-                if (tab != null)
+                try
                 {
-                    for (int i = 0; i < tab.Rows.Count; i++)
-                    {
-                        response.CategorySegmentId = Convert.ToInt32(tab.Rows[i]["CategorySegementId"]);
-                        response.CategoryId =Convert.ToInt32( tab.Rows[i]["categoryId"]);
-                        response.Gender = Convert.ToBoolean(tab.Rows[i]["gender"]);
-                        response.minage = Convert.ToInt32(tab.Rows[i]["minage"]);
-                        response.maxgae = Convert.ToInt32(tab.Rows[i]["maxage"]);
-                        response.minamount = Convert.ToDecimal(tab.Rows[i]["minamount"]);
-                        response.maxamount = Convert.ToDecimal(tab.Rows[i]["maxamount"]);
-                        _categories.Add(response);
-                        
+                    con.Open();
+                    cmd.Connection = con;
 
-                    }
+                    cmd.CommandText = "InsertOrUpdateCategory";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@categoryname", category.categoryName).Direction = ParameterDirection.Input;
+                    cmd.Parameters.AddWithValue("@categoryId", category.categoryId).Direction = ParameterDirection.Input;
+                    
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                    return true;
                 }
-                return _categories;
-
+                catch (Exception e)
+                {
+                    return false;
+                }
 
             }
 
-        }
 
-         
+        }
+    }
 
     }
-}
+
+
+

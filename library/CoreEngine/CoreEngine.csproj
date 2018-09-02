@@ -44,7 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Repository\v1\CategoryRepository.cs" />
+    <Compile Include="Repository\v1\CategorySegmentRepository.cs" />
     <Compile Include="Repository\v1\CustomerRepository.cs" />
+    <Compile Include="Repository\v1\MerchantRepositary.cs" />
     <Compile Include="RuleExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BaseRepository.cs" />

@@ -51,8 +51,12 @@
     <Compile Include="Model\RuleEngine\TransactionRequest.cs" />
     <Compile Include="Model\TransactionRequest.cs" />
     <Compile Include="Model\v1\Category.cs" />
+    <Compile Include="Model\v1\CategoryResponse.cs" />
+    <Compile Include="Model\v1\CategorySegment.cs" />
     <Compile Include="Model\v1\CategorySegmentResponse.cs" />
     <Compile Include="Model\v1\customerDetails.cs" />
+    <Compile Include="Model\v1\MerchantDetails.cs" />
+    <Compile Include="Model\v1\MerchantResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
