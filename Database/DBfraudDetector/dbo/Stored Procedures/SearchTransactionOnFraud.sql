@@ -9,11 +9,11 @@ BEGIN
 	SET NOCOUNT ON;
 
 --Get Min & Max Transaction Amount Except Current Transaction for same Card No
-select AVG(transactionAmount) Avg, max(transactionAmount) max from Transactions where cardno=@cardNo
+select AVG(transactionAmount) Avg, max(transactionAmount) max from Transactions where CustomerId=@cardNo
 and TransactionId!=@transactionId;
 
  --Check Records count on time difference
-  select count(*) cnt from Transactions where CardNo=@cardNo and TransactionDT>=@TransDateFilterFrom
+  select count(*) cnt from Transactions where CustomerId=@cardNo and TransactionDT>=@TransDateFilterFrom
   
   --Check record count on IP for same time period
   select IPAddress,count(*) cnt

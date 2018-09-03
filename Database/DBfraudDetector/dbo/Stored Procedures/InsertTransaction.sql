@@ -10,7 +10,7 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-INSERT INTO [dbo].[Transactions]([TransactionId],[CardNo],[IPAddress],[Latitude]
+INSERT INTO [dbo].[Transactions]([TransactionId],CustomerId,[IPAddress],[Latitude]
            ,[Longitude],[TransactionDT],[TransactionAmount],[IsFradulant]
 		   ,[IsFalsePositive],[FalsePositiveChangeDT],[FraudScore])
      VALUES
