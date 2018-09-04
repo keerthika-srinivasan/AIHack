@@ -26,7 +26,7 @@ namespace CoreEngine.Repository.v1
                 con.Open();
                 cmd.Connection = con;
 
-                cmd.CommandText = "Getcategories";
+                cmd.CommandText = "GetCategorySegments";
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 SqlDataAdapter da = new SqlDataAdapter();

@@ -1,21 +1,21 @@
-﻿using Common.Model;
-using Microsoft.Ajax.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
-using System.Web.Mvc;
-using System.Web.Script.Serialization;
+﻿using common.Model.v1;
+using Common.Model;
 using CoreEngine.Repository;
+using CoreEngine.Repository.v1;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace FraudDetector.Controllers
 {
     public class HomeController : Controller
     { 
-        
+        public HomeController()
+        {
+
+        }
         public bool Validate(TransactionRequest request)
         {
+            //Test commit process
            return request.CardNumber == "1";
            
         }
@@ -52,7 +52,37 @@ namespace FraudDetector.Controllers
             return true;
            
         }
+
+        public JsonResult Getcategories()
+        {
+            CategoryRepository repository = new CategoryRepository();
+            var s=repository.GetCategories("Test", 1);
+            return Json(s, JsonRequestBehavior.AllowGet);
+        }
         
+        public JsonResult GetcategorySegment()
+        {
+            CategorySegmentRepository repository = new CategorySegmentRepository(); 
+            CategorySegment segment = new CategorySegment();
+            segment.CategoryId = 1;
+            var l = repository.GetCategorySegment(segment);
+            return Json(l, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GerMerchantDetails()
+        {
+            MerchantRepositary repositary = new MerchantRepositary();
+            var l=repositary.GetMerchantDetails(1, false, 1);
+            return Json(l, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetCustomerDetails()
+        { CustomerRepository repository = new CustomerRepository();
+            CustomerDetails details = new CustomerDetails();
+            var l = repository.GetCustomerDetails(1);
+            return Json(l, JsonRequestBehavior.AllowGet);
+        }
         public string response(string id)
         {
             //  DashBoardResponse _response = new DashBoardResponse();

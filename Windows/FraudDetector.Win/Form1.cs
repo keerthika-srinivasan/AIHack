@@ -72,7 +72,6 @@ namespace FraudDetector.Win
         /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
-
             TransactionRequest request = new TransactionRequest()
             {
                 Transactionid = txttransid.Text,

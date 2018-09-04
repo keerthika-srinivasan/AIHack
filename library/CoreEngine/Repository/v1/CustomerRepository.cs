@@ -8,7 +8,7 @@ namespace CoreEngine.Repository.v1
 {
     public class CustomerRepository : BaseRepository
     {
-        public CustomerDetails GetCustomerDetails(long CustomerId)
+        public List<CustomerMappedCategory> GetCustomerDetails(long CustomerId)
         {
             using (SqlCommand cmd = new SqlCommand())
             {
@@ -29,10 +29,10 @@ namespace CoreEngine.Repository.v1
             }
         }
 
-        private CustomerDetails ConvertToCustomerDetails(DataSet ds)
+        private List<CustomerMappedCategory> ConvertToCustomerDetails(DataSet ds)
         {
-            if (ds == null || ds.Tables == null || ds.Tables.Count == 0)
-                return new CustomerDetails();
+            //if (ds == null || ds.Tables == null || ds.Tables.Count == 0)
+                //return new CustomerDetails();
             var MappedCategories = new List<CustomerMappedCategory>();
             if (ds.Tables.Count == 2)
             {
@@ -61,7 +61,7 @@ namespace CoreEngine.Repository.v1
             }
 
 
-            return null;
+            return MappedCategories;
         }
 
     }
