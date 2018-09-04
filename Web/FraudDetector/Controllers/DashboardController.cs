@@ -14,6 +14,23 @@ namespace FraudDetector.Controllers
         {
 
         }
+
+        public bool Index()
+        {
+            return true;
+        }
+    
+        [System.Web.Http.Route("api/{GetCategories}")]
+        //Sample: http://localhost:54633/api/GetCategories?categoryId=1&categoryName=test
+        //Sample: http://localhost:54633/api/GetCategories
+        public IHttpActionResult Getcategories(string categoryName = "", int categoryId = 0)
+        {
+            CategoryRepository repository = new CategoryRepository();
+            var s = repository.GetCategories(categoryName, categoryId);
+            return Ok(new { results = s });
+        }
+
+
         public bool Validate(TransactionRequest request)
         {
             //Test commit process
@@ -36,12 +53,7 @@ namespace FraudDetector.Controllers
 
         }
 
-        public IHttpActionResult Getcategories()
-        {
-            CategoryRepository repository = new CategoryRepository();
-            var s = repository.GetCategories("Test", 1);
-            return Ok(new { results = s });
-        }
+      
 
         public IHttpActionResult GetcategorySegment()
         {
