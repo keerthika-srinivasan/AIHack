@@ -1,4 +1,5 @@
 ﻿using common.Model.v1;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -19,9 +20,9 @@ namespace CoreEngine.Repository.v1
             _response = new CategoryResponse();
         }
 
-        public List<Category> GetCategories(string categoryname, int categoryid)
+        public string GetCategories(string categoryname, int categoryid)
         {
-           
+            string josn = string.Empty;
             using (SqlCommand cmd = new SqlCommand())
             {
                 con.Open();
@@ -36,22 +37,30 @@ namespace CoreEngine.Repository.v1
                 cmd.Parameters.AddWithValue("@categoryid", categoryid).Direction = ParameterDirection.Input;
                 da = new SqlDataAdapter(cmd);
                 da.Fill(ds);
-                con.Close();
-                var tab = ds.Tables[0];
-                if(tab!=null)
-                {
-                    for(int i=0;i<tab.Rows.Count;i++)
-                    {
-                        _category.categoryName = tab.Rows[i]["categoryName"].ToString();
-                        _category.categoryId = tab.Rows[i]["categoryId"].ToString();
-                        _response.response.Add(_category);
 
-                    }
+                if (ds.Tables.Count > 0)
+                {
+                    ds.Tables[0].TableName = "CategoryMaster";
+                    josn = JsonConvert.SerializeObject(ds);
                 }
-                
-                
+                con.Close();
+                return josn;
+                //    var tab = ds.Tables[0];
+                //    if(tab!=null)
+                //    {
+                //        for(int i=0;i<tab.Rows.Count;i++)
+                //        {
+                //            _category.categoryName = tab.Rows[i]["categoryName"].ToString();
+                //            _category.categoryId = tab.Rows[i]["categoryId"].ToString();
+                //            _response.response.Add(_category);
+
+                //        }
+                //    }
+
+
+                //}
+                //return _response.response;
             }
-            return _response.response;
         }
 
 

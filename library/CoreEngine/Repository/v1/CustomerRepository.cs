@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using common.Extension;
+using Newtonsoft.Json;
 
 namespace CoreEngine.Repository.v1
 {
@@ -12,6 +13,7 @@ namespace CoreEngine.Repository.v1
         {
             using (SqlCommand cmd = new SqlCommand())
             {
+                string s;
                 con.Open();
                 cmd.Connection = con;
 
@@ -24,11 +26,24 @@ namespace CoreEngine.Repository.v1
                 SqlDataAdapter datrans = new SqlDataAdapter(cmd);
                 DataSet dsPubs = new DataSet();
                 datrans.Fill(dsPubs);
-                                
+                dsPubs.Tables.Clear();
+                datrans = new SqlDataAdapter(cmd);
+                datrans.Fill(dsPubs);
+                dsPubs.Tables[0].TableName = "Customer";
+                dsPubs.Tables[1].TableName = "CategorySegemnt";
+                
+               
+                s = JsonConvert.SerializeObject(dsPubs);
+
+                //    s= JsonConvert.SerializeObject(item, Formatting.Indented);
+
+
+
                 return ConvertToCustomerDetails(dsPubs);
             }
         }
 
+               
         private List<CustomerMappedCategory> ConvertToCustomerDetails(DataSet ds)
         {
             //if (ds == null || ds.Tables == null || ds.Tables.Count == 0)

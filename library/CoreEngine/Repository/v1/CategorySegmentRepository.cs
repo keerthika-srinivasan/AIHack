@@ -1,4 +1,5 @@
 ﻿using common.Model.v1;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,9 +19,9 @@ namespace CoreEngine.Repository.v1
             _segment = new CategorySegmentResponse();
             _response = new List<CategorySegmentResponse>();
         }
-        public List<CategorySegmentResponse> GetCategorySegment(CategorySegment categorySegment)
+        public string GetCategorySegment(CategorySegment categorySegment)
         {
-            
+            string josn = string.Empty;
             using (SqlCommand cmd = new SqlCommand())
             {
                 con.Open();
@@ -35,25 +36,31 @@ namespace CoreEngine.Repository.v1
 
                 da = new SqlDataAdapter(cmd);
                 da.Fill(ds);
-                con.Close();
-                var tab = ds.Tables[0];
-                if (tab != null)
+                if(ds.Tables.Count>0)
                 {
-                    for (int i = 0; i < tab.Rows.Count; i++)
-                    {
-                        _segment.CategorySegmentId = Convert.ToInt32(tab.Rows[i]["CategorySegementId"]);
-                        _segment.CategoryId = Convert.ToInt32(tab.Rows[i]["categoryId"]);
-                        _segment.Gender = Convert.ToBoolean(tab.Rows[i]["gender"]);
-                        _segment.minage = Convert.ToInt32(tab.Rows[i]["minage"]);
-                        _segment.maxgae = Convert.ToInt32(tab.Rows[i]["maxage"]);
-                        _segment.minamount = Convert.ToDecimal(tab.Rows[i]["minamount"]);
-                        _segment.maxamount = Convert.ToDecimal(tab.Rows[i]["maxamount"]);
-                        _response.Add(_segment);
-
-
-                    }
+                    ds.Tables[0].TableName = "CataegorySegements";
+                    josn = JsonConvert.SerializeObject(ds);
                 }
-                return _response;
+                con.Close();
+                return josn;
+                //var tab = ds.Tables[0];
+                //if (tab != null)
+                //{
+                //    for (int i = 0; i < tab.Rows.Count; i++)
+                //    {
+                //        _segment.CategorySegmentId = Convert.ToInt32(tab.Rows[i]["CategorySegementId"]);
+                //        _segment.CategoryId = Convert.ToInt32(tab.Rows[i]["categoryId"]);
+                //        _segment.Gender = Convert.ToBoolean(tab.Rows[i]["gender"]);
+                //        _segment.minage = Convert.ToInt32(tab.Rows[i]["minage"]);
+                //        _segment.maxgae = Convert.ToInt32(tab.Rows[i]["maxage"]);
+                //        _segment.minamount = Convert.ToDecimal(tab.Rows[i]["minamount"]);
+                //        _segment.maxamount = Convert.ToDecimal(tab.Rows[i]["maxamount"]);
+                //        _response.Add(_segment);
+
+
+                //    }
+                //}
+                //return _response;
 
 
             }

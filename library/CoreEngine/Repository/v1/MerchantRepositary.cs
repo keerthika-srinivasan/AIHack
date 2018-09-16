@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using common.Extension;
+using Newtonsoft.Json;
 
 namespace CoreEngine.Repository.v1
 {
@@ -21,8 +22,9 @@ namespace CoreEngine.Repository.v1
             _merchantDetails = new List<MerchantResponse>();
 
         }
-        public List<MerchantResponse> GetMerchantDetails(int MerchantId = 0, bool Mode = false, int RiskScore = 0)
+        public string  GetMerchantDetails(int MerchantId = 0, bool Mode = false, int RiskScore = 0)
         {
+            string joson = string.Empty;
             using (SqlCommand cmd = new SqlCommand())
             {
                 con.Open();
@@ -36,29 +38,37 @@ namespace CoreEngine.Repository.v1
                 SqlDataAdapter datrans = new SqlDataAdapter(cmd);
                 DataSet dsPubs = new DataSet();
                 datrans.Fill(dsPubs);
-                con.Close();
-                var tab = dsPubs.Tables[0];
-                if (tab == null || tab.Rows.Count <= 0)
-                    return _merchantDetails;
-                foreach (DataRow eachRow in tab.AsEnumerable())
+                if(dsPubs.Tables.Count>0)
                 {
-                    var row = new MerchantResponse()
-                    {
-                        MerchantId = StringExtension.ConvertFromObject<int>(eachRow["merchantId"]),
-                        MerchantName = StringExtension.ConvertFromObject<string>(eachRow["MerchantName"]),
-                        Mode = StringExtension.ConvertFromObject<bool>(eachRow["Mode"]),
-                        IPAddress = StringExtension.ConvertFromObject<string>(eachRow["IPAddress"]),
-                        ThresholdAmount = StringExtension.ConvertFromObject<decimal>(eachRow["ThresholdAmount"]),
-                        Location = StringExtension.ConvertFromObject<int>(eachRow["Location"]),
-                        GeoIp = StringExtension.ConvertFromObject<string>(eachRow["GeoIp"]),
-                        RiskScore = StringExtension.ConvertFromObject<int>(eachRow["RiskScore"]),
-                        CategoryId = StringExtension.ConvertFromObject<int>(eachRow["CategoryId"]),
+                    dsPubs.Tables[0].TableName = "MerchantInformation";
+                    joson= JsonConvert.SerializeObject(dsPubs);
 
-                    };
-                    _merchantDetails.Add(row);
                 }
+                con.Close();
+                return joson;
+                //var tab = dsPubs.Tables[0];
+                //if (tab == null || tab.Rows.Count <= 0)
+                //    return _merchantDetails;
+                //    foreach (DataRow eachRow in tab.AsEnumerable())
+                //    {
+                //        var row = new MerchantResponse()
+                //        {
+                //            MerchantId = StringExtension.ConvertFromObject<int>(eachRow["merchantId"]),
+                //            MerchantName = StringExtension.ConvertFromObject<string>(eachRow["MerchantName"]),
+                //            Mode = StringExtension.ConvertFromObject<bool>(eachRow["Mode"]),
+                //            IPAddress = StringExtension.ConvertFromObject<string>(eachRow["IPAddress"]),
+                //            ThresholdAmount = StringExtension.ConvertFromObject<decimal>(eachRow["ThresholdAmount"]),
+                //            Location = StringExtension.ConvertFromObject<int>(eachRow["Location"]),
+                //            GeoIp = StringExtension.ConvertFromObject<string>(eachRow["GeoIp"]),
+                //            RiskScore = StringExtension.ConvertFromObject<int>(eachRow["RiskScore"]),
+                //            CategoryId = StringExtension.ConvertFromObject<int>(eachRow["CategoryId"]),
+
+                //        };
+                //        _merchantDetails.Add(row);
+                //    }
+                //}
+                //return _merchantDetails;
             }
-            return _merchantDetails;
         }
 
         public bool InsertOrUpdateMerchantdetails(MerchantDetails merchantDetails)

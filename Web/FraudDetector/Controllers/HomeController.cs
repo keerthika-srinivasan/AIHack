@@ -4,6 +4,8 @@ using CoreEngine.Repository;
 using CoreEngine.Repository.v1;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+using System.Data;
 
 namespace FraudDetector.Controllers
 {
@@ -33,6 +35,8 @@ namespace FraudDetector.Controllers
 
         public ActionResult About()
         {
+            CustomerRepository repository = new CustomerRepository();
+            repository.GetCustomerDetails(1);
             ViewBag.Message = "Your application description page.";
 
             return View();
@@ -55,9 +59,10 @@ namespace FraudDetector.Controllers
 
         public JsonResult Getcategories()
         {
+            
             CategoryRepository repository = new CategoryRepository();
-            var s=repository.GetCategories("Test", 1);
-            return Json(s, JsonRequestBehavior.AllowGet);
+             string response=repository.GetCategories("Test", 1);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
         
         public JsonResult GetcategorySegment()
@@ -65,16 +70,16 @@ namespace FraudDetector.Controllers
             CategorySegmentRepository repository = new CategorySegmentRepository(); 
             CategorySegment segment = new CategorySegment();
             segment.CategoryId = 1;
-            var l = repository.GetCategorySegment(segment);
-            return Json(l, JsonRequestBehavior.AllowGet);
+            string response = repository.GetCategorySegment(segment);
+            return Json(response, JsonRequestBehavior.AllowGet);
 
         }
 
         public JsonResult GerMerchantDetails()
         {
             MerchantRepositary repositary = new MerchantRepositary();
-            var l=repositary.GetMerchantDetails(1, false, 1);
-            return Json(l, JsonRequestBehavior.AllowGet);
+            string response=repositary.GetMerchantDetails(1, false, 1);
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetCustomerDetails()
