@@ -11,4 +11,5 @@ BEGIN
 	 join [dbo].category C 
 	 on C.categoryId=CG.categoryId
 	 and CG.categoryid=@CategoryId or @CategoryId=0
+	 order by C.CategoryId, CG.CategorySegementId
 END

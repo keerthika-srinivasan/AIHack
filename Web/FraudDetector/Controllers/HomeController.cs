@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using System.Data;
+using System;
 
 namespace FraudDetector.Controllers
 {
@@ -51,10 +52,14 @@ namespace FraudDetector.Controllers
         [System.Web.Mvc.HttpPost]
         public bool ProcessTransactionRecord(ProcessRecordRequest request)
         {
-            InsertOperation _insertOperation = new InsertOperation();
-            _insertOperation.UpdateFraudStatus(request.TransactionId, (request.IsFraud == "y"));
-            return true;
+            long _trans = 0;
 
+            if (request != null && long.TryParse(request.TransactionId, out _trans) && _trans > 0)
+            {
+                InsertOperation _insertOperation = new InsertOperation();
+                _insertOperation.UpdateFraudStatus(request.TransactionId, (Convert.ToString(request.IsFraud).ToLower() == "y"));
+            }
+            return true;
         }
 
         public JsonResult Getcategories(string categoryname = "", int categoryid = 0)
