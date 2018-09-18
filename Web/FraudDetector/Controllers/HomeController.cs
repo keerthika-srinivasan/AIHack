@@ -57,35 +57,34 @@ namespace FraudDetector.Controllers
            
         }
 
-        public JsonResult Getcategories()
+        public JsonResult Getcategories(string categoryname = "", int categoryid = 0)
         {
-            
+
             CategoryRepository repository = new CategoryRepository();
-             string response=repository.GetCategories("Test", 1);
+            string response = repository.GetCategories(categoryname, categoryid);
             return Json(response, JsonRequestBehavior.AllowGet);
         }
         
-        public JsonResult GetcategorySegment()
+        public JsonResult GetcategorySegment(int CategoryId=0)
         {
             CategorySegmentRepository repository = new CategorySegmentRepository(); 
             CategorySegment segment = new CategorySegment();
-            segment.CategoryId = 1;
+            segment.CategoryId = CategoryId;
             string response = repository.GetCategorySegment(segment);
             return Json(response, JsonRequestBehavior.AllowGet);
 
         }
 
-        public JsonResult GerMerchantDetails()
+        public JsonResult GerMerchantDetails(int merchantId=0, bool mode=false, int riskScore=0)
         {
             MerchantRepositary repositary = new MerchantRepositary();
-            string response=repositary.GetMerchantDetails(1, false, 1);
+            string response = repositary.GetMerchantDetails(merchantId, mode, riskScore);
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetCustomerDetails()
+        public JsonResult GetCustomerDetails(long customerId=0)
         { CustomerRepository repository = new CustomerRepository();
-            CustomerDetails details = new CustomerDetails();
-            var l = repository.GetCustomerDetails(1);
+            var l = repository.GetCustomerDetails(customerId);
             return Json(l, JsonRequestBehavior.AllowGet);
         }
         public string response(string id)

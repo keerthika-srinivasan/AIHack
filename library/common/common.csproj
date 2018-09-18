@@ -57,6 +57,7 @@
     <Compile Include="Model\v1\customerDetails.cs" />
     <Compile Include="Model\v1\MerchantDetails.cs" />
     <Compile Include="Model\v1\MerchantResponse.cs" />
+    <Compile Include="Model\v1\TransactionDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
