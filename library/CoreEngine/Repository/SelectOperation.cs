@@ -188,10 +188,10 @@ namespace CoreEngine.Repository
             return response;
         }
 
-        public List<DashBoardResponse> GetPendingTransactions(string Id)
+        public DataSet GetPendingTransactions(string Id)
         {
 
-            List<DashBoardResponse> response = new List<DashBoardResponse>();
+            DataSet ds = new DataSet();
             using (SqlCommand cmd = new SqlCommand())
             {
                 con.Open();
@@ -199,33 +199,17 @@ namespace CoreEngine.Repository
 
                 cmd.CommandText = "GetPendingFradulentTransaction";
                 cmd.CommandType = CommandType.StoredProcedure;
-
-                SqlDataAdapter da = new SqlDataAdapter();
-                DataSet ds = new DataSet();
-
                 cmd.Parameters.AddWithValue("@ID", Id).Direction = ParameterDirection.Input;
 
-                da = new SqlDataAdapter(cmd);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(ds);
                 con.Close();
-
-                var tab = ds.Tables[0];
-                if (tab != null)
-                {
-                    foreach (DataRow existingRow in tab.Rows)
-                    {
-                        DashBoardResponse model = new DashBoardResponse();
-                        model.TransactionId = Convert.ToString(existingRow["TransactionId"]);
-                        model.UniqueId = Convert.ToString(existingRow["id"]);
-                        model.TransDt = Convert.ToString(existingRow["TransactionDT"]);
-                        model.CardNumber = Convert.ToString(existingRow["CardNo"]);
-                        response.Add(model);
-                    }
-                }
-
-                return response;
             }
-
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0)
+            {
+                ds.Tables[0].TableName = "PendingFradulentTransactions";
+            }
+            return ds;
         }
     }
 }

@@ -84,7 +84,7 @@ namespace FraudDetector.Controllers
             //  DashBoardResponse _response = new DashBoardResponse();
             List<DashBoardResponse> _response = new List<DashBoardResponse>();
             SelectOperation _selectOperation = new SelectOperation();
-            _response = _selectOperation.GetPendingTransactions(id);
+           // _response = _selectOperation.GetPendingTransactions(id);
 
             return Ok(new { results = _response });
         }

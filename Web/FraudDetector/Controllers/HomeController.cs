@@ -87,54 +87,12 @@ namespace FraudDetector.Controllers
             var l = repository.GetCustomerDetails(customerId);
             return Json(l, JsonRequestBehavior.AllowGet);
         }
-        public string response(string id)
+        public JsonResult response(string id)
         {
-            //  DashBoardResponse _response = new DashBoardResponse();
-            List<DashBoardResponse> _response = new List<DashBoardResponse>();
             SelectOperation _selectOperation = new SelectOperation();
-            _response= _selectOperation.GetPendingTransactions(id);
+            var _response = _selectOperation.GetPendingTransactions(id);
+            return Json(_response, JsonRequestBehavior.AllowGet);
 
-            //List<DashBoardResponse> _response = new List<DashBoardResponse>()
-            //{
-            //    new DashBoardResponse
-            //    {
-            //        CardNumber="fgdffgdgdf",
-            //        TransactionId="sdfhsdjf",
-            //        TransDt="23-09-1222",
-            //        UniqueId="456"
-            //    },
-            //    new DashBoardResponse
-            //    {
-            //        CardNumber="sdgjhdf",
-            //        TransactionId="634785634785",
-            //          TransDt="23-09-1222",
-            //        UniqueId="4567"
-            //    },
-            //    new DashBoardResponse
-            //    {
-            //        CardNumber="dshfgsdf",
-            //        TransactionId="347865378456",
-            //          TransDt="23-09-1222",
-            //        UniqueId="4560"
-            //    },
-            //    new DashBoardResponse
-            //    {
-            //        CardNumber="gffgdfsdfs",
-            //        TransactionId="15244523423",
-            //          TransDt="23-09-1222",
-            //        UniqueId="4564"
-            //    },
-            //    new DashBoardResponse
-            //    {
-            //        CardNumber="5476754",
-            //        TransactionId="5423554",
-            //          TransDt="23-09-1222",
-            //        UniqueId="45687"
-            //    },
-
-
-            //};
-           return Newtonsoft.Json.JsonConvert.SerializeObject(_response);
         }
     }
 }
