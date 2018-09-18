@@ -9,8 +9,9 @@ namespace CoreEngine.Repository.v1
 {
     public class CustomerRepository : BaseRepository
     {
-        public List<CustomerMappedCategory> GetCustomerDetails(long CustomerId)
+        public DataSet GetCustomerDetails(long CustomerId)
         {
+            DataSet dsPubs = new DataSet();
             using (SqlCommand cmd = new SqlCommand())
             {
                 string s;
@@ -24,23 +25,28 @@ namespace CoreEngine.Repository.v1
                 cmd.Parameters["@CustomerId"].Direction = ParameterDirection.Input;
 
                 SqlDataAdapter datrans = new SqlDataAdapter(cmd);
-                DataSet dsPubs = new DataSet();
+
                 datrans.Fill(dsPubs);
                 dsPubs.Tables.Clear();
                 datrans = new SqlDataAdapter(cmd);
                 datrans.Fill(dsPubs);
-                dsPubs.Tables[0].TableName = "Customer";
-                dsPubs.Tables[1].TableName = "CategorySegemnt";
-                
-               
-                s = JsonConvert.SerializeObject(dsPubs);
 
-                //    s= JsonConvert.SerializeObject(item, Formatting.Indented);
-
-
-
-                return ConvertToCustomerDetails(dsPubs);
             }
+            if (dsPubs != null && dsPubs.Tables != null && dsPubs.Tables.Count > 0)
+            {
+                dsPubs.Tables[0].TableName = "Customer";
+                if (dsPubs.Tables.Count > 1)
+                    dsPubs.Tables[1].TableName = "CategorySegemnt";
+
+            }
+
+            return dsPubs;
+                //s = JsonConvert.SerializeObject(dsPubs);
+
+            //    s= JsonConvert.SerializeObject(item, Formatting.Indented);
+
+            // return ConvertToCustomerDetails(dsPubs);
+
         }
 
                

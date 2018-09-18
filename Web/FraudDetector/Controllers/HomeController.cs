@@ -10,7 +10,7 @@ using System.Data;
 namespace FraudDetector.Controllers
 {
     public class HomeController : Controller
-    { 
+    {
         public HomeController()
         {
 
@@ -18,8 +18,8 @@ namespace FraudDetector.Controllers
         public bool Validate(TransactionRequest request)
         {
             //Test commit process
-           return request.CardNumber == "1";
-           
+            return request.CardNumber == "1";
+
         }
         [System.Web.Mvc.HttpPost]
         public bool ValidatePost(TransactionRequest request)
@@ -54,7 +54,7 @@ namespace FraudDetector.Controllers
             InsertOperation _insertOperation = new InsertOperation();
             _insertOperation.UpdateFraudStatus(request.TransactionId, (request.IsFraud == "y"));
             return true;
-           
+
         }
 
         public JsonResult Getcategories(string categoryname = "", int categoryid = 0)
@@ -64,10 +64,10 @@ namespace FraudDetector.Controllers
             string response = repository.GetCategories(categoryname, categoryid);
             return Json(response, JsonRequestBehavior.AllowGet);
         }
-        
-        public JsonResult GetcategorySegment(int CategoryId=0)
+
+        public JsonResult GetcategorySegment(int CategoryId = 0)
         {
-            CategorySegmentRepository repository = new CategorySegmentRepository(); 
+            CategorySegmentRepository repository = new CategorySegmentRepository();
             CategorySegment segment = new CategorySegment();
             segment.CategoryId = CategoryId;
             string response = repository.GetCategorySegment(segment);
@@ -75,15 +75,16 @@ namespace FraudDetector.Controllers
 
         }
 
-        public JsonResult GerMerchantDetails(int merchantId=0, bool mode=false, int riskScore=0)
+        public JsonResult GerMerchantDetails(int merchantId = 0, bool mode = false, int riskScore = 0)
         {
             MerchantRepositary repositary = new MerchantRepositary();
             string response = repositary.GetMerchantDetails(merchantId, mode, riskScore);
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetCustomerDetails(long customerId=0)
-        { CustomerRepository repository = new CustomerRepository();
+        public JsonResult GetCustomerDetails(long customerId = 0)
+        {
+            CustomerRepository repository = new CustomerRepository();
             var l = repository.GetCustomerDetails(customerId);
             return Json(l, JsonRequestBehavior.AllowGet);
         }
